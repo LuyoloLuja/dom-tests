@@ -11,7 +11,7 @@ function calculateBill(billElement) {
       }
       else if (bill === 'sms') {
         sms += 0.75;
-      }     
+      }
     }
     var total = call + sms;
     return total.toFixed(2);
