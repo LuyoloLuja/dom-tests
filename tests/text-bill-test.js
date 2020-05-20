@@ -18,4 +18,9 @@ describe('The text-bill function', function(){
         assert.equal(2.75, billText.getCallCost());
         assert.equal(0.75, billText.getSmsCost());
     })
+    it('Should be able to overall total', function(){
+        var billItem = textBill();
+
+        assert.equal(3.50, billItem.roundedTotalCost());
+    })
 })
