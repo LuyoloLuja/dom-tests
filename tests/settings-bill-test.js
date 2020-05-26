@@ -46,3 +46,56 @@ describe('The bill with settings function', function(){
         assert.equal(25, settingsBill.getCriticalLevel())
     })
 })
+describe('Use the set values', function(){
+    it('Should be able to use the call cost set', function(){
+        let settingsBill = billWithSettings();
+        settingsBill.setCallCost(2.25);
+        settingsBill.setSmsCost(0.85);
+
+        settingsBill.makeCall();
+        settingsBill.makeCall();
+        settingsBill.makeCall();
+
+        assert.equal(6.75, settingsBill.getTotalCallCost());
+        assert.equal(6.75, settingsBill.getTotalCost());
+        assert.equal(0.00, settingsBill.getTotalSmsCost());
+    })
+    it('Should be able to use the call cost set for 2 calls at 1.35 each', function(){
+        let settingsBill = billWithSettings();
+        settingsBill.setCallCost(1.35);
+        settingsBill.setSmsCost(0.85);
+
+        settingsBill.makeCall();
+        settingsBill.makeCall();
+
+        assert.equal(2.70, settingsBill.getTotalCallCost());
+        assert.equal(2.70, settingsBill.getTotalCost());
+        assert.equal(0.00, settingsBill.getTotalSmsCost());
+    })
+    it('Should be able to send 2 at sms 0.85 each', function(){
+        let settingsBill = billWithSettings();
+        settingsBill.setCallCost(1.35);
+        settingsBill.setSmsCost(0.85);
+
+        settingsBill.sendSms();
+        settingsBill.sendSms();
+
+        assert.equal(0.00, settingsBill.getTotalCallCost());
+        assert.equal(1.70, settingsBill.getTotalCost());
+        assert.equal(1.70, settingsBill.getTotalSmsCost());
+    })
+
+    it('Should be able to send 2 at sms 0.85 each and a 1 call at 1.35', function(){
+        let settingsBill = billWithSettings();
+        settingsBill.setCallCost(1.35);
+        settingsBill.setSmsCost(0.85);
+
+        settingsBill.sendSms();
+        settingsBill.makeCall();
+        settingsBill.sendSms();
+
+        assert.equal(1.35, settingsBill.getTotalCallCost());
+        assert.equal(3.05, settingsBill.getTotalCost());
+        assert.equal(1.70, settingsBill.getTotalSmsCost());
+    })
+})
